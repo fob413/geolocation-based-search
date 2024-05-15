@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  backend:
+    build: "./backend"
+    container_name: geolocation_backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - "./backend:/backend"
+      - "/backend/node_modules"
+
