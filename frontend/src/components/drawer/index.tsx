@@ -1,6 +1,8 @@
-import { Layout } from "antd";
+import { Layout, Input, Button, Flex, Typography } from "antd";
+import { SearchOutlined } from '@ant-design/icons'
 
 const { Sider } = Layout;
+const { Title } = Typography;
 
 
 const Drawer = () => {
@@ -11,7 +13,20 @@ const Drawer = () => {
             className={"sidebar"}
             width={300}
         >
-            Side bar
+            <Flex vertical gap="large">
+                <Title className="white-text">Geo Location Search</Title>
+
+                <Input placeholder="Search..." />
+
+                <Flex wrap gap="small">
+                    <Input placeholder="longitude" />
+                    <Input placeholder="latitude" />
+                </Flex>
+
+                <Button type="primary" icon={<SearchOutlined />}>
+                    Search
+                </Button>
+            </Flex>
         </Sider>
     );
 };
