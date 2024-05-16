@@ -133,3 +133,6 @@ dist
 ./backend/.env
 ./backend/dist/
 backend/.idea
+./frontend/node_modules
+./frontend/.env
+frontend/.idea
