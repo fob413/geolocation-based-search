@@ -7,7 +7,6 @@ function App() {
     <Layout>
         <Drawer />
 
-        <h1>Geo Location Search</h1>
     </Layout>
   )
 }
