@@ -1,6 +1,6 @@
-import { Flex, Card, Typography } from "antd";
+import { Flex } from "antd";
+import GeoLocation from "@/components/GeoLocation";
 
-const { Text } = Typography;
 
 type Props = {
     geoLocations: [{
@@ -13,17 +13,28 @@ type Props = {
             type: string,
             coordinates: []
         }
-    }]
+    }];
+    onSetPosition: (event) => void;
+    selectedLocation: string;
+    setSelectedLocation: (event) => void;
 }
 
-const GeoLocations = ({ geoLocations }: Props) => {
+const GeoLocations = ({ geoLocations, onSetPosition, selectedLocation, setSelectedLocation }: Props) => {
+    const handleSetPosition = (location, id) => {
+        onSetPosition([location.coordinates[1], location.coordinates[0]]);
+        setSelectedLocation(id);
+    }
+
     return (
         <Flex vertical gap="small" className="geolocations-container">
             {
-                geoLocations.map(location => (
-                    <Card className={"card"}>
-                        <Text>{location.street} <span>&#9788;</span> {location.city} <span>&#9788;</span> {location.county} <span>&#9788;</span> {location.country}</Text>
-                    </Card>
+                geoLocations.map((location, index) => (
+                    <GeoLocation
+                        key={index} street={location.street} id={location.id}
+                        city={location.city} county={location.county}
+                        country={location.country} location={location.location}
+                        onClick={handleSetPosition} selectedLocation={selectedLocation}
+                    />
                 ))
             }
         </Flex>

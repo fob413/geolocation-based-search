@@ -11,6 +11,8 @@ function App() {
         longitude: "",
         latitude: ""
     });
+    const [position, setPosition] = useState([43.595310, -79.640579]);
+    const [selectedLocation, setSelectedLocation] = useState("");
     const [api, contextHolder] = notification.useNotification();
     const { data:geoLocationData, refetch } = useQueryGeoLocations(formData);
 
@@ -59,16 +61,15 @@ function App() {
         }));
     }, [geoLocationData]);
 
-    console.log('>>>> ', geoLocations);
-
   return (
     <Layout>
         {contextHolder}
         <Drawer
             formData={formData} onChange={handleOnChange} onSubmit={handleOnSubmit}
-            geoLocations={geoLocations}
+            geoLocations={geoLocations} onSetPosition={setPosition} selectedLocation={selectedLocation}
+            setSelectedLocation={setSelectedLocation}
         />
-        <Map />
+        <Map position={position} />
     </Layout>
   )
 }

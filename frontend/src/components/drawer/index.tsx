@@ -8,11 +8,12 @@ const { Title } = Typography;
 type Props = {
     onChange: (event) => void;
     onSubmit: (event) => void;
+    onSetPosition: (event) => void;
     formData: {
         search: null | string,
         longitude: null | string,
         latitude: null | string
-    },
+    };
     geoLocations: [{
         id: string,
         street: string,
@@ -23,12 +24,17 @@ type Props = {
             type: string,
             coordinates: []
         }
-    }]
+    }];
+    selectedLocation: string;
+    setSelectedLocation: (event) => void;
 }
 
 
 
-const Drawer = ({ onChange, formData, onSubmit, geoLocations }: Props ) => {
+const Drawer = ({
+    onChange, formData, onSubmit, geoLocations, onSetPosition,
+    selectedLocation, setSelectedLocation
+}: Props ) => {
     return (
         <Sider
             breakpoint="lg"
@@ -66,7 +72,10 @@ const Drawer = ({ onChange, formData, onSubmit, geoLocations }: Props ) => {
 
             <Space />
 
-            <GeoLocations geoLocations={geoLocations} />
+            <GeoLocations
+                geoLocations={geoLocations} onSetPosition={onSetPosition}
+                selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation}
+            />
         </Sider>
     );
 };
