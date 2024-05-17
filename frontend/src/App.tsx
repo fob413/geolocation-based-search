@@ -21,12 +21,14 @@ function App() {
 
     const handleOnSubmit = (event) => {
         event.preventDefault();
-        console.log('>>>>', formData);
+
+        refetch();
     }
 
+    // make query from 3 search characters
     useEffect(() => {
         if (formData.search.trim().length < 3) return;
-        refetch();  
+        refetch();
     }, [formData.search]);
 
   return (
