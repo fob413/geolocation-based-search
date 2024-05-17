@@ -3,9 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import QueryKeys from "../../utils/queryKeys";
 
 type QueryProps = {
-    search: undefined | string;
-    longitude: undefined | number;
-    latitude: undefined | number;
+    search: null | string;
+    longitude: null | number;
+    latitude: null | number;
 }
 
 
