@@ -10,3 +10,13 @@
 h1.white-text {
     color: white;
 }
+
+.geolocations-container {
+    padding-top: 5vh;
+    height: 50vh;
+    overflow-y: scroll;
+}
+
+.card {
+    cursor: pointer;
+}

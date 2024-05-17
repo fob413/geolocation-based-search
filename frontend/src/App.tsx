@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Layout, notification } from "antd";
 import Drawer from "./components/drawer";
 import Map from "./components/map";
@@ -12,8 +12,7 @@ function App() {
         latitude: ""
     });
     const [api, contextHolder] = notification.useNotification();
-    const { data, refetch } = useQueryGeoLocations(formData);
-    console.log('>>> data: ', data);
+    const { data:geoLocationData, refetch } = useQueryGeoLocations(formData);
 
     const handleOnChange = (event) => {
         const { id, value } = event.target;
@@ -44,11 +43,30 @@ function App() {
         refetch();
     }, [formData.search]);
 
+    const geoLocations = useMemo(() => {
+        if (
+            !geoLocationData ||
+            !Object.prototype.hasOwnProperty.call(geoLocationData, "data") ||
+            !Object.prototype.hasOwnProperty.call(geoLocationData.data, "suggestions")
+        ) return [];
+        return geoLocationData.data.suggestions.map(location => ({
+            id: location._id,
+            street: location.street,
+            city: location.city,
+            county: location.county,
+            country: location.country,
+            location: location.location
+        }));
+    }, [geoLocationData]);
+
+    console.log('>>>> ', geoLocations);
+
   return (
     <Layout>
         {contextHolder}
         <Drawer
             formData={formData} onChange={handleOnChange} onSubmit={handleOnSubmit}
+            geoLocations={geoLocations}
         />
         <Map />
     </Layout>
