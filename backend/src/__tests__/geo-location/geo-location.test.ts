@@ -11,9 +11,10 @@ const data = [
         "city": "New Ansley",
         "county": "Worcestershire",
         "country": "Gabon",
-        "latitude": "-15.739",
-        "longitude": "-21.276",
-        "__v": 0,
+        "location": {
+            type: "Point",
+            coordinates: [-21.276, -15.739]
+        },
         "createdAt": "2024-05-16T03:44:00.301Z",
         "updatedAt": "2024-05-16T03:44:00.301Z"
     },
@@ -22,9 +23,10 @@ const data = [
         "city": "West Brendonville",
         "county": "Isle of Wight",
         "country": "Cyprus",
-        "latitude": "-64.756",
-        "longitude": "53.22",
-        "__v": 0,
+        "location": {
+            type: "Point",
+            coordinates: [53.22, -64.756]
+        },
         "createdAt": "2024-05-16T03:44:00.302Z",
         "updatedAt": "2024-05-16T03:44:00.302Z"
     },
@@ -33,9 +35,10 @@ const data = [
         "city": "Bellingham",
         "county": "Hampshire",
         "country": "New Caledonia",
-        "latitude": "16.558",
-        "longitude": "-45.451",
-        "__v": 0,
+        "location": {
+            type: "Point",
+            coordinates: [-45.451, 16.558]
+        },
         "createdAt": "2024-05-16T03:44:00.302Z",
         "updatedAt": "2024-05-16T03:44:00.302Z"
     },
@@ -44,9 +47,10 @@ const data = [
         "city": "Marionton",
         "county": "Rutland",
         "country": "Virgin Islands, U.S.",
-        "latitude": "-82.708",
-        "longitude": "75.622",
-        "__v": 0,
+        "location": {
+            type: "Point",
+            coordinates: [75.622, -82.708]
+        },
         "createdAt": "2024-05-16T03:44:00.302Z",
         "updatedAt": "2024-05-16T03:44:00.302Z"
     },
@@ -55,9 +59,10 @@ const data = [
         "city": "Marionton",
         "county": "Herefordshire",
         "country": "Iran",
-        "latitude": "-52.383",
-        "longitude": "71.412",
-        "__v": 0,
+        "location": {
+            type: "Point",
+            coordinates: [71.412, -52.383]
+        },
         "createdAt": "2024-05-16T03:44:00.302Z",
         "updatedAt": "2024-05-16T03:44:00.302Z"
     },
@@ -71,6 +76,8 @@ describe(`GeoLocation route '${geoLocationUrl}'`, () => {
 
         // seed db with data
         await GeoLocationModel.insertMany(data);
+
+        jest.spyOn(console, 'error').mockImplementation(() => {});
     });
 
     afterAll(async () => {
@@ -82,7 +89,21 @@ describe(`GeoLocation route '${geoLocationUrl}'`, () => {
         const response = await request(app).get(geoLocationUrl);
         expect(response.status).toBe(200);
         expect(response.body.status).toBe("success");
-        expect(response.body.message).toBe("Successfully retrieved geo-locations")
-       expect(response.body.data.length).toBe(5);
+        expect(response.body.message).toBe("Successfully retrieved geo-locations");
+        expect(response.body.data?.suggestions.length).toBe(5);
+   });
+
+   it("should successfully query geo-locations with user input 'q, longitude, latitude'", async () => {
+       const response = await request(app).get(geoLocationUrl + "?q=Cyprus&longitude=53.22&latitude=-64.756");
+       expect(response.status).toBe(200);
+       expect(response.body.status).toBe("success");
+       expect(response.body.message).toBe("Successfully retrieved geo-locations");
+   })
+
+   it("should return an error if trying to query with invalid longitude or latitude", async () => {
+       const response = await request(app).get(geoLocationUrl + "?longitude=190&latitude=91");
+       expect(response.status).toBe(400);
+       expect(response.body.status).toBe("error");
+       expect(response.body.message).toBe("Invalid coordinates. latitude must be within the range of -90 to 90 and longitude must be within the range -180 to 180");
    });
 });

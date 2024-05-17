@@ -22,13 +22,14 @@ const geoLocationSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
-    latitude: {
-        type: String,
-        trim: true
-    },
-    longitude: {
-        type: String,
-        trim: true
+    location: {
+        type: {
+            type: String,
+            default: "Point",
+        },
+        coordinates: {
+            type: [Number],
+        }
     },
     timeZone: {
         type: String,
@@ -36,6 +37,10 @@ const geoLocationSchema = new mongoose.Schema({
     }
 }, {
     timestamps: true
+});
+
+geoLocationSchema.index({
+    location: "2dsphere",
 });
 
 export default mongoose.model('GeoLocation', geoLocationSchema);
