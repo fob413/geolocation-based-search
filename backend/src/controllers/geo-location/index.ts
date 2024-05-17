@@ -22,7 +22,7 @@ export class GeoLocationController {
             200,
             "success",
             "Successfully retrieved geo-locations",
-            geoLocationData
+            { suggestions: geoLocationData }
         );
     }
 
