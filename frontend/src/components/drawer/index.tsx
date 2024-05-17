@@ -1,6 +1,6 @@
-import { Ref } from "react";
-import { Layout, Input, Button, Flex, Typography, Form } from "antd";
+import { Layout, Input, Button, Flex, Typography, Space } from "antd";
 import { SearchOutlined } from '@ant-design/icons'
+import GeoLocations from "@/components/GeoLocations";
 
 const { Sider } = Layout;
 const { Title } = Typography;
@@ -12,12 +12,23 @@ type Props = {
         search: null | string,
         longitude: null | string,
         latitude: null | string
-    }
+    },
+    geoLocations: [{
+        id: string,
+        street: string,
+        city: string,
+        county: string,
+        country: string,
+        location: {
+            type: string,
+            coordinates: []
+        }
+    }]
 }
 
 
 
-const Drawer = ({ onChange, formData, onSubmit }: Props ) => {
+const Drawer = ({ onChange, formData, onSubmit, geoLocations }: Props ) => {
     return (
         <Sider
             breakpoint="lg"
@@ -52,6 +63,10 @@ const Drawer = ({ onChange, formData, onSubmit }: Props ) => {
                     Search
                 </Button>
             </Flex>
+
+            <Space />
+
+            <GeoLocations geoLocations={geoLocations} />
         </Sider>
     );
 };
