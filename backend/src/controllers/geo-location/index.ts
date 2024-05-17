@@ -27,7 +27,11 @@ export class GeoLocationController {
     }
 
     public routes () {
-        this.router.get("/search", this.getGeoLocations);
+        this.router.get(
+            "/search",
+            this.geoLocationService.queryValidatorMiddleware,
+            this.getGeoLocations
+        );
     }
 }
 
