@@ -10,7 +10,10 @@ type QueryProps = {
 
 
 const url = ({ search, longitude, latitude }: QueryProps) => {
-    return `${process.env.REACT_APP_BEND_URL}/geo-location/search?${search && `q=${search}&`}${longitude && `longitude=${longitude}&`}${latitude && `latitude=${latitude}`}`
+    return `${process.env.REACT_APP_BEND_URL}/geo-location/search?${
+        (search && typeof search == "string" && search.trim().length > 2)  && `q=${search}&`}${
+        longitude && `longitude=${longitude}&`}${
+        latitude && `latitude=${latitude}`}`
 };
 
 const getGeoLocations = async ({ search, longitude, latitude }: QueryProps) => {
@@ -23,7 +26,8 @@ const getGeoLocations = async ({ search, longitude, latitude }: QueryProps) => {
 const useQueryGeoLocations = ({ search, longitude, latitude }: QueryProps) => {
     return useQuery({
         queryKey: [QueryKeys.queryGeoLocations(search, longitude, latitude)],
-        queryFn: () => getGeoLocations({ search, longitude, latitude })
+        queryFn: () => getGeoLocations({ search, longitude, latitude }),
+        enabled: false
     });
 }
 
