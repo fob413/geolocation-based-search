@@ -20,3 +20,7 @@ h1.white-text {
 .card {
     cursor: pointer;
 }
+
+.selectedLocation {
+    border: #1677ff 2px solid;
+}
