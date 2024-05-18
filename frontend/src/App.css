@@ -24,3 +24,7 @@ h1.white-text {
 .selectedLocation {
     border: #1677ff 2px solid;
 }
+
+.ant-layout-sider-zero-width-trigger.ant-layout-sider-zero-width-trigger-left {
+    z-index: 500;
+}
