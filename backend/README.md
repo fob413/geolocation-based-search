@@ -1,4 +1,4 @@
-# Geolocation Query API
+# Geo-Location Backend Repo
 ## Overview
 This API allows users to query a saved set of geolocations. It is built with TypeScript, Express, MongoDB, and Mongoose, providing efficient and robust geolocation querying capabilities. The API supports searching for geolocations within a specified radius and other complex query conditions.
 
