@@ -1,6 +1,11 @@
 import { NextFunction, Response, Request } from "express";
 import { GeoLocationModel } from "../../models";
 import Exception from "../../utils/exception";
+import { formattedResponse } from "../../utils/response";
+const NodeCache = require("node-cache");
+
+
+const cache = new NodeCache();
 
 class GeoLocationService {
     constructor() { }
@@ -138,6 +143,29 @@ class GeoLocationService {
             (req.query as any)["latitude"] = lat;
         }
         return next();
+    }
+
+    public getCacheKey = (req: Request) => {
+        const { longitude, latitude, q: search } = req.query;
+        return `${search && `${search}-`}${longitude && `${longitude}-`}${latitude && `${latitude}-`}`
+    }
+
+    public setCache = (key: string, value: any) => {
+        cache.set(key, value);
+    }
+
+    public retrieveCacheMiddleware = (req: Request, res: Response, next: NextFunction) => {
+        const cachedData = cache.get(this.getCacheKey(req));
+
+        if (cachedData) {
+            return formattedResponse(
+                res,
+                200,
+                "success",
+                "Successfully retrieved geo-locations",
+                { suggestions: cachedData }
+            );
+        } else next();
     }
 }
 

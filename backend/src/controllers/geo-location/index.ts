@@ -17,6 +17,8 @@ export class GeoLocationController {
     public getGeoLocations = async (req: Request, res: Response, next: NextFunction) => {
         const geoLocationData = await this.geoLocationService.getGeoLocations(req, res, next);
 
+        this.geoLocationService.setCache(this.geoLocationService.getCacheKey(req), geoLocationData);
+
         return formattedResponse(
             res,
             200,
@@ -30,6 +32,7 @@ export class GeoLocationController {
         this.router.get(
             "/search",
             this.geoLocationService.queryValidatorMiddleware,
+            this.geoLocationService.retrieveCacheMiddleware,
             this.getGeoLocations
         );
     }
