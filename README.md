@@ -14,7 +14,7 @@ For the backend, I utilized Node.js with TypeScript and Express.js to build a ty
 
 - Indexing for Performance: To optimize search performance, I implemented text search indexes for fields like street, city, county, and country, and geospatial indexes for latitude and longitude. This ensured fast and efficient querying of location data based on user input and proximity searches.
 
-For more information, please go to the [FrontEnd Repo Readme](frontend/README.md)
+For more information, please go to the [Backend Repo Readme](backend/README.md)
 
 
 ### Frontend Development:
@@ -28,4 +28,4 @@ For the frontend, I chose React with TypeScript and Vite for a fast and modern d
 
 - Leaflet.js for Mapping: Leaflet.js was integrated to handle interactive maps, providing users with a visual representation of geo-locations. Its simplicity and ease of integration with React made it an ideal choice for this project.
 
-For more information, please go to the [Backend Repo Readme](backend/README.md)
+For more information, please go to the [FrontEnd Repo Readme](frontend/README.md)
